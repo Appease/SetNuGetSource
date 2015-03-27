@@ -45,7 +45,13 @@ $ConfigFilePath){
 
     $nugetParameters =  @('sources','Add','-Name',$Name,'-Source',$SourceUrlOrPath,'-NonInteractive')
         
-    if($ConfigFilePath){
+    If($UserName){
+        $nugetParameters += @('-UserName',$UserName)
+    }
+    If($Password){
+        $nugetParameters += @('-Password',$Password)
+    }
+    If($ConfigFilePath){
         $nugetParameters += @('-ConfigFile',$ConfigFilePath)
     }
     
