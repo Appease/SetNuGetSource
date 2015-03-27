@@ -36,7 +36,7 @@ $ConfigFilePath){
     # and "list" command returns unreliably parsable strings
     $OriginalErrorPreference = $ErrorActionPreference 
     Try{
-       $ErrorActionPreference = 'SilentlyContinue'
+       $ErrorActionPreference = 'Ignore'
        & $nugetExecutable @('sources','Remove','-Name',$Name,'-Source',$SourceUrlOrPath,'-NonInteractive')
     }
     Finally{
