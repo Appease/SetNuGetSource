@@ -1,3 +1,5 @@
+$ErrorActionPreference = 'Stop'
+
 function Invoke-PoshDevOpsTask(
 [String]
 [ValidateNotNullOrEmpty()]
@@ -29,45 +31,38 @@ $Password,
     ValueFromPipelineByPropertyName=$true)]
 $ConfigFilePath){
         
-    $NugetExecutable = "$PSScriptRoot\nuget.exe"
+    $NuGetExecutable = "$PSScriptRoot\nuget.exe"
 
     # Kludge to remove any existing conflicting source.
     # nuget.exe doesn't support "update if exists", "list existing with ID" or equivalent 
-    # and "list" command returns unreliably parsable strings
-    $OriginalErrorPreference = $ErrorActionPreference 
-    Try{
-       $ErrorActionPreference = 'Ignore'
-       
-       $NuGetParameters = @('sources','Remove','-Name',$Name,'-NonInteractive')
+    # and "list" command returns unreliably parsable strings       
+    $NuGetParameters = @('sources','Remove','-Name',$Name,'-NonInteractive')
 
-       If($ConfigFilePath){
-           $NuGetParameters += @('-ConfigFile',$ConfigFilePath)
-       }
-
-       & $NugetExecutable $NuGetParameters *> $null
+    If($ConfigFilePath){
+        $NuGetParameters += @('-ConfigFile',$ConfigFilePath)
     }
-    Finally{
-        $ErrorActionPreference = $OriginalErrorPreference
-    }
+    & $NugetExecutable $NuGetParameters *> $null
 
-    $NugetExecutable =  @('sources','Add','-Name',$Name,'-Source',$SourceUrlOrPath,'-NonInteractive')
+
+    # add it back with desired values
+    $NuGetParameters =  @('sources','Add','-Name',$Name,'-Source',$SourceUrlOrPath,'-NonInteractive')
         
     If($UserName){
-        $NugetExecutable += @('-UserName',$UserName)
+        $NuGetParameters += @('-UserName',$UserName)
     }
     If($Password){
-        $NugetExecutable += @('-Password',$Password)
+        $NuGetParameters += @('-Password',$Password)
     }
     If($ConfigFilePath){
-        $NugetExecutable += @('-ConfigFile',$ConfigFilePath)
+        $NuGetParameters += @('-ConfigFile',$ConfigFilePath)
     }
     
 Write-Debug `
 @"
 Invoking nuget:
-& $NugetExecutable $($NugetExecutable|Out-String)
+& $NugetExecutable $($NuGetParameters|Out-String)
 "@
-        & $NugetExecutable $NugetExecutable
+        & $NugetExecutable $NuGetParameters
 
         # handle errors
         if ($LastExitCode -ne 0) {
