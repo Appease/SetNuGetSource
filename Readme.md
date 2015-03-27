@@ -10,23 +10,6 @@ New-PoshDevOpTask -Name "YOUR-TASK-NAME" -PackageId "SetNuGetSource"
 
 ####What parameters are available?
 
-#####IncludeSlnAndOrConfigFilePath
-A String[] representing included .sln and/or .config file paths. Either literal or wildcard paths are allowed; Default is all .sln files within the project root dir @ any depth
-```PowerShell
-[String[]]
-[Parameter(
-    ValueFromPipelineByPropertyName = $true)]
-$IncludeSlnAndOrConfigFilePath
-```
-
-#####Recurse
-a Switch representing whether to include .sln and/or .config files located in sub directories of $IncludeSlnAndOrConfigFilePath (at any depth)
-```PowerShell
-[Switch]
-[Parameter(
-    ValueFromPipelineByPropertyName=$true)]
-$Recurse
-```
 #####Name
 A String representing the unique name of the source
 ```PowerShell
