@@ -1,6 +1,6 @@
 ####What is it?
 
-A [PoshDevOps](https://github.com/PoshDevOps/PoshDevOps) task that sets a [NuGet](https://nuget.org) package source
+A [PoshDevOps](https://github.com/PoshDevOps/PoshDevOps) task that sets a [NuGet](https://nuget.org) source
 
 ####How do I install it?
 
