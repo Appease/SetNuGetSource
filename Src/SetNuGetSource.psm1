@@ -33,13 +33,14 @@ $ConfigFilePath){
 
     # Kludge to remove any existing conflicting source.
     # nuget.exe doesn't support "update if exists", "list existing with ID" or equivalent 
-    # and "list" command returns unreliably parsable strings 
-    try{
+    # and "list" command returns unreliably parsable strings
+    $OriginalErrorPreference = $ErrorActionPreference 
+    Try{
        $ErrorActionPreference = 'SilentlyContinue'
        & $nugetExecutable @('sources','Remove','-Name',$Name,'-Source',$SourceUrlOrPath,'-NonInteractive')
     }
     Finally{
-        $ErrorActionPreferencetry = $originalErrorPreference
+        $ErrorActionPreference = $OriginalErrorPreference
     }
 
     $nugetParameters =  @('sources','Add','-Name',$Name,'-Source',$SourceUrlOrPath,'-NonInteractive')
