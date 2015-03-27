@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>AddOrUpdateNuGetSource</id>
+		<version>$version$</version>
+		<authors>Chris Dostert</authors>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>
+			A Poshtask that creates one or more NuGet packages
+		</description>
+		<tags>Powershell PoshDevOps NuGet</tags>
+		<projectUrl>https://github.com/PoshDevOps/AddOrUpdateNuGetSource</projectUrl>
+	</metadata>	
+	<files>
+		<file src="**" target="tools\AddOrUpdateNuGetSource" exclude="**\.nuspec"/>
+	</files>
+</package>
