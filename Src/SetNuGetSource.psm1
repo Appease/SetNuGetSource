@@ -29,7 +29,7 @@ $Password,
     ValueFromPipelineByPropertyName=$true)]
 $ConfigFilePath){
         
-    $nugetExecutable = "$PSScriptRoot\nuget.exe"
+    $NugetExecutable = "$PSScriptRoot\nuget.exe"
 
     # Kludge to remove any existing conflicting source.
     # nuget.exe doesn't support "update if exists", "list existing with ID" or equivalent 
@@ -37,30 +37,37 @@ $ConfigFilePath){
     $OriginalErrorPreference = $ErrorActionPreference 
     Try{
        $ErrorActionPreference = 'Ignore'
-       & $nugetExecutable @('sources','Remove','-Name',$Name,'-Source',$SourceUrlOrPath,'-NonInteractive')
+       
+       $NuGetParameters = @('sources','Remove','-Name',$Name,'-NonInteractive')
+
+       If($ConfigFilePath){
+           $NuGetParameters += @('-ConfigFile',$ConfigFilePath)
+       }
+
+       & $NugetExecutable $NuGetParameters *> $null
     }
     Finally{
         $ErrorActionPreference = $OriginalErrorPreference
     }
 
-    $nugetParameters =  @('sources','Add','-Name',$Name,'-Source',$SourceUrlOrPath,'-NonInteractive')
+    $NugetExecutable =  @('sources','Add','-Name',$Name,'-Source',$SourceUrlOrPath,'-NonInteractive')
         
     If($UserName){
-        $nugetParameters += @('-UserName',$UserName)
+        $NugetExecutable += @('-UserName',$UserName)
     }
     If($Password){
-        $nugetParameters += @('-Password',$Password)
+        $NugetExecutable += @('-Password',$Password)
     }
     If($ConfigFilePath){
-        $nugetParameters += @('-ConfigFile',$ConfigFilePath)
+        $NugetExecutable += @('-ConfigFile',$ConfigFilePath)
     }
     
 Write-Debug `
 @"
 Invoking nuget:
-& $nugetExecutable $($nugetParameters|Out-String)
+& $NugetExecutable $($NugetExecutable|Out-String)
 "@
-        & $nugetExecutable $nugetParameters
+        & $NugetExecutable $NugetExecutable
 
         # handle errors
         if ($LastExitCode -ne 0) {
