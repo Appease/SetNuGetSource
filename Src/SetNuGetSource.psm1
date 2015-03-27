@@ -29,7 +29,7 @@ $Password,
     ValueFromPipelineByPropertyName=$true)]
 $ConfigFilePath){
         
-    $nugetExecutable = '.\nuget.exe'
+    $nugetExecutable = "$PSScriptRoot\nuget.exe"
 
     # Kludge to remove any existing conflicting source.
     # nuget.exe doesn't support "update if exists", "list existing with ID" or equivalent 
