@@ -1,64 +1,34 @@
+![](https://ci.appveyor.com/api/projects/status/4j343xtqm93ro3mf?svg=true)
+
 ####What is it?
 
-A [PoshDevOps](https://github.com/PoshDevOps/PoshDevOps) task that sets a [NuGet](https://nuget.org) source
+An [Appease](http://appease.io) task template that sets a [NuGet](https://nuget.org) source
 
 ####How do I install it?
 
 ```PowerShell
-New-PoshDevOpTask -Name "YOUR-TASK-NAME" -PackageId "SetNuGetSource"
+Add-AppeaseTask `
+    -DevOpName YOUR-DEVOP-NAME `
+    -Name YOUR-TASK-NAME `
+    -TemplateId SetNuGetSource
 ```
 
-####What parameters are available?
+####What parameters are required?
 
 #####Name
-A String representing the unique name of the source
-```PowerShell
-[String]
-[ValidateNotNullOrEmpty()]
-[Parameter(
-    Mandatory=$true,
-    ValueFromPipelineByPropertyName=$true)]
-$Name
-```
+description: a `string` representing a unique name for the source.
 
 #####SourceUrlOrPath
-A String representing the unique url or path of the source
-```PowerShell
-[String]
-[ValidateNotNullOrEmpty()]
-[Parameter(
-    Mandatory=$true,
-    ValueFromPipelineByPropertyName=$true)]
-$SourceUrlOrPath
-```
+description: a `string` representing the url or path of the source.
+
+####What parameters are optional?
 
 #####UserName
-A String representing the username credential to use when authenticating with the source (if any)
-```PowerShell
-[String]
-[Parameter(
-    ValueFromPipelineByPropertyName=$true)]
-$UserName
-```
+description: a `string` representing the username credential to use when authenticating with the source.
 
 #####Password
-A String representing the password credential to use when authenticating with the source (if any)
-```PowerShell
-[String]
-[Parameter(
-    ValueFromPipelineByPropertyName=$true)]
-$Password
-```
+description: a `string` representing the password credential to use when authenticating with the source.
 
 #####ConfigFilePath
-A String representing the path of the `Nuget.config` file to set the source in; defaults to `%AppData%\NuGet\NuGet.config`
-```PowerShell
-[String]
-[ValidateScript({if($_){Test-Path $_ -PathType Leaf}})]
-[Parameter(
-    ValueFromPipelineByPropertyName=$true)]
-$ConfigFilePath
-```
-
-####What's the build status?
-![](https://ci.appveyor.com/api/projects/status/4j343xtqm93ro3mf?svg=true)
+description: a `string` representing the path of the `Nuget.config` file to set the source in.  
+default: `%AppData%\NuGet\NuGet.config`

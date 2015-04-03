@@ -1,6 +1,6 @@
 $ErrorActionPreference = 'Stop'
 
-function Invoke-PoshDevOpsTask(
+function Invoke(
 [String]
 [ValidateNotNullOrEmpty()]
 [Parameter(
@@ -31,7 +31,7 @@ $Password,
     ValueFromPipelineByPropertyName=$true)]
 $ConfigFilePath){
         
-    $NuGetExecutable = "$PSScriptRoot\nuget.exe"
+    $NuGetCommand = 'nuget'
 
     # Kludge to remove any existing conflicting source.
     # nuget.exe doesn't support "update if exists", "list existing with ID" or equivalent 
@@ -41,7 +41,7 @@ $ConfigFilePath){
     If($ConfigFilePath){
         $NuGetParameters += @('-ConfigFile',$ConfigFilePath)
     }
-    & $NugetExecutable $NuGetParameters *> $null
+    & $NuGetCommand $NuGetParameters *> $null
 
 
     # add it back with desired values
@@ -60,9 +60,9 @@ $ConfigFilePath){
 Write-Debug `
 @"
 Invoking nuget:
-& $NugetExecutable $($NuGetParameters|Out-String)
+& $NuGetCommand $($NuGetParameters|Out-String)
 "@
-        & $NugetExecutable $NuGetParameters
+        & $NuGetCommand $NuGetParameters
 
         # handle errors
         if ($LastExitCode -ne 0) {
@@ -71,4 +71,4 @@ Invoking nuget:
 
 }
 
-Export-ModuleMember -Function Invoke-PoshDevOpsTask
+Export-ModuleMember -Function Invoke
